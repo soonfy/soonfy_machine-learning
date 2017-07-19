@@ -1,0 +1,25 @@
+{
+  "name": "machine-learning",
+  "version": "1.0.0",
+  "description": "python, scikit-learn, machine learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/soonfy/soonfy_machine-learning.git"
+  },
+  "keywords": [
+    "python",
+    "scikit-learn",
+    "machine",
+    "learning"
+  ],
+  "author": "soonfy <soonfy@163.com> (https://github.com/soonfy)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/soonfy/soonfy_machine-learning/issues"
+  },
+  "homepage": "https://github.com/soonfy/soonfy_machine-learning#readme"
+}
