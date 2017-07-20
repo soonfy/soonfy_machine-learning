@@ -40,4 +40,13 @@
       find a combination of samples to build a plane maximizing the margin between the two classes  
 
   3. model selection  
-    
+    * score  
+    * cross-validated estimators  
+
+  4. unsupervised learning  
+    * clustering  
+      k-means clustering  
+    * decompositions  
+      principal component analysis  
+      independent component analysis  
+      
