@@ -50,3 +50,10 @@
       principal component analysis  
       independent component analysis  
       
+
+## supervised learning
+
+### Generalized Linear Models
+  ![linear](linear.png)  
+  designate the vector w = (w_1, ..., w_p) as coef_ and w_0 as intercept_  
+  
