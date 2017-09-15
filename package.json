@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/soonfy/soonfy_machine-learning.git"
+    "url": "git+ssh://git@github.com/soonfy/study_machine-learning.git"
   },
   "keywords": [
     "python",
@@ -19,7 +19,7 @@
   "author": "soonfy <soonfy@163.com> (https://github.com/soonfy)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/soonfy/soonfy_machine-learning/issues"
+    "url": "https://github.com/soonfy/study_machine-learning/issues"
   },
-  "homepage": "https://github.com/soonfy/soonfy_machine-learning#readme"
+  "homepage": "https://github.com/soonfy/study_machine-learning#readme"
 }
