@@ -12,6 +12,7 @@ def log(func):
     return func(*args, **kw)
   return wrapper
 
+
 # file_path
 # read line length
 @log
@@ -45,60 +46,39 @@ def read_dir(dir_path, ext='.txt'):
   #   x for x in os.listdir(dir_path) if os.path.isfile(os.path.join(dir_path, x)) and os.path.splitext(x)[1] == ext
   # ])
 
-# name, followed, following, sexal
+# name, followed, following
 @log
 def pre_data(data_arr):
   data = []
   for lines in data_arr:
     for line in lines.split('\n'):
       temp = line.split('\t')
-      data.append([temp[8], temp[5], temp[6], temp[2], temp[3], temp[4]])
+      data.append([temp[8], temp[5], temp[6]])
   # print(data)
   return data
 
+# draw scatter
+# x - followed
+# y - following
+# color - type
 @log
-def draw_scatter(data_arr):
-  data_arr = data_arr[1:]
-  datax = []
-  datay = []
-  datat = []
-  for temp in data_arr:
-    if int(temp[1]) < 300 and int(temp[2]) < 250:
-      datax.append(temp[1])
-      datay.append(temp[2])
-      datat.append(0)
-    elif int(temp[1]) < 300 and (int(temp[2]) > 500 and int(temp[2]) < 1000):
-      datax.append(temp[1])
-      datay.append(temp[2])
-      datat.append(1)
-    elif (int(temp[1]) > 500 and int(temp[1]) < 1000) and (int(temp[2]) > 500 and int(temp[2]) < 1000):
-      datax.append(temp[1])
-      datay.append(temp[2])
-      datat.append(3)
-    elif (int(temp[1]) > 500 and int(temp[1]) < 1000) and int(temp[2]) < 250:
-      datax.append(temp[1])
-      datay.append(temp[2])
-      datat.append(4)
-  
-  print(len(datax))
-  
+def draw_scatter(datax, datay, datal):
+
   plt.title('scatter')
-  # print(datax)
-  # print(datay)
-  plt.xlabel(u'followed')
+  plt.xlabel('followed')
   plt.ylabel('following')
   plt.xlim(0, 1200)
   plt.ylim(0, 1200)
 
   datax = np.array(datax, 'int32')
   datay = np.array(datay, 'int32')
-  datat = np.array(datat, 'int32')
+  datal = np.array(datal, 'int32')
 
   sizes = []
   colors = []
   linewidths = []
   edgecolors = []
-  for temp in datat:
+  for temp in datal:
     if temp == 1:
       colors.append('#4AB8EA')
       sizes.append(20)
@@ -107,14 +87,14 @@ def draw_scatter(data_arr):
     elif temp == 2:
       colors.append('#E2769F')
     elif temp == 3:
-      colors.append('#E94F5A')
-    elif temp == 4:
       colors.append('#F5C224')
+    elif temp == 4:
+      colors.append('#E94F5A')
     else:
       colors.append('#4AB8EA')
       sizes.append(30)
       linewidths.append(1)
-      # edgecolors.append('#F18754')
+      edgecolors.append('#F18754')
   
   marker = 'o'
   alpha = 0.5
@@ -123,6 +103,8 @@ def draw_scatter(data_arr):
   
   plt.show()
 
+
+# draw fill
 @log
 def draw_fill(data_arr):
   data_arr = data_arr[1:]
@@ -148,6 +130,8 @@ def draw_fill(data_arr):
 
   plt.show()
 
+
+# draw bar
 @log
 def draw_bar(data_arr):
   data_arr = data_arr[1:]
@@ -170,8 +154,12 @@ def draw_bar(data_arr):
   plt.show()
 
 
-data = read_file('./data/weibo-2017-10-01.txt', 1)
-print(data)
-data = pre_data(read_file('./data/weibo-2017-10-01.txt', 10000))
-draw_scatter(data)
-# draw_fill(data)
+# main
+def main():
+  data = read_file('./data/weibo-2017-10-01.txt', 1)
+  print(data)
+  data = pre_data(read_file('./data/weibo-2017-10-01.txt', 10000))
+  draw_scatter(data)
+
+if __name__ == '__main__':
+  main()
