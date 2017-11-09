@@ -47,4 +47,3 @@
   * predict_proba(attr_mat): 预测数据对象的概率    
   * score(attr_mat, label_vec): 测试分类效果    
   * set_params(): 配置分类器参数    
-  * 
