@@ -1,6 +1,24 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
+"""
+@module knn
+@methods
+  1. file2matrix
+  2. draw_scatter
+  3. auto_normal
+  4. classify_knn
+  5. clean_data
+  6. classify_test
+
+@desc study knn
+@author soonfy<soonfy@163.com>
+@log
+created at: 2017-11-08
+updated at: 2017-11-09
+"""
+print(__doc__)
+
 import sys
 import operator
 import numpy as np
@@ -13,7 +31,7 @@ def file2matrix(file_path):
   params:  
     file_path: 数据集路径，相对于程序运行目录，字符串  
   return:  
-    attr_mat：属性矩阵，np 对象  
+    attr_mat：属性矩阵，np 数组对象  
     label_vec：数据集类别，原生数组  
   """
   print('file path -->', file_path)
@@ -122,7 +140,7 @@ def classify_knn(attr_vec, attr_mat, label_vec, k):
     knn 预测分类标签  
   params:  
     attr_vec: 待预测属性向量，原生数组  
-    attr_mat: 属性矩阵，np 对象  
+    attr_mat: 属性矩阵，np 数组对象  
     label_vec: 数据集类别，原生数组   
     k: 最近邻个数，数值   
   return:  
@@ -244,13 +262,9 @@ def study():
 
 if __name__ == '__main__':
   print('start knn...')
-
   file_path = 'data/dating.txt'
-
-  # clean_data(file_path)
-
-  # classify_test(file_path, 0.1)
-
+  clean_data(file_path)
+  classify_test(file_path, 0.1)
   print('knn over...')
 
   study()

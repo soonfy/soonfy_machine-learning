@@ -17,5 +17,34 @@
 1. 第 1 列：每年获得的飞行常客里程数    
 2. 第 2 列：玩视频游戏所耗时间百分比    
 3. 第 3 列：每周消费的冰淇淋公升数    
-4. 第 4 列：类别。1 - 不喜欢， 2 - 魅力一般， 3 - 极具魅力    
+4. 第 4 列：类别。1 表示不喜欢， 2 表示魅力一般， 3 表示极具魅力    
 
+### scikit-learn neighbors
+
+  ```
+  from sklearn import neighbors
+  neigh = neighbors.KNeighborsClassifier(n_neighbors, weights)
+  neigh.fit(attr_mat, label_vec)
+  labels = neigh.predict(test_mat)
+  ```
+
+  1. KNeighborsClassifier 参数    
+  * n_neighbors: 最近邻个数。    
+  * weights: 距离权重计算方式。 uniform 表示距离权重相同，distance 表示权重和距离成反比。    
+  * algorithm: 数据集分类方法。 ball_tree ，kd_tree 和暴力搜索。    
+  * leaf_size: 叶子节点大小，适用于 ball_tree 和 kd_tree。     
+  * p: 距离计算方式。 1 曼哈顿距离，2 欧几里得距离，n 闵可夫斯基距离。    
+  * metric: 距离度量方式。 minkowski 表示闵可夫斯基距离，
+  * metric_params: 距离度量参数。    
+  * n_jobs: 任务并发数量。 -1 表示 CPU 核数。    
+
+  2. neigh 对象的方法    
+  * fit(attr_mat, label_vec): 训练模型    
+  * get_params(): 返回分类器参数    
+  * kneighbors(attr_mat, n_neighbors, return_distance): 返回邻近数据对象    
+  * kneighbors_graph(attr_mat): 返回数据集连接矩阵    
+  * predict(attr_mat): 预测数据对象    
+  * predict_proba(attr_mat): 预测数据对象的概率    
+  * score(attr_mat, label_vec): 测试分类效果    
+  * set_params(): 配置分类器参数    
+  * 
