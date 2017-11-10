@@ -20,12 +20,12 @@ from matplotlib import colors
 
 import knn as knn
 
-def classify_knn_sk(attr_mat, label_vec, n_neighbors):
+def classify_knn_sk(feature_mat, label_vec, n_neighbors):
   """
   desc:  
     scikit-learn neighbors 预测分类标签  
   params:  
-    attr_mat: 属性矩阵，必须进行归一化，np 数组对象  
+    feature_mat: 特征属性矩阵，必须进行归一化，np 数组对象  
     label_vec: 数据集类别，原生数组   
     n_neighbors: 最近邻个数，数值   
   return:  
@@ -38,9 +38,9 @@ def classify_knn_sk(attr_mat, label_vec, n_neighbors):
   step = 0.1
   for weights in ['uniform', 'distance']:
     neigh = neighbors.KNeighborsClassifier(n_neighbors, weights)
-    neigh.fit(attr_mat, label_vec)
-    x_min, x_max = attr_mat[:, 0].min(), attr_mat[:, 0].max()
-    y_min, y_max = attr_mat[:, 1].min(), attr_mat[:, 1].max()
+    neigh.fit(feature_mat, label_vec)
+    x_min, x_max = feature_mat[:, 0].min(), feature_mat[:, 0].max()
+    y_min, y_max = feature_mat[:, 1].min(), feature_mat[:, 1].max()
     xx, yy = np.meshgrid(np.arange(x_min, x_max, step), np.arange(y_min, y_max, step))
     labels = neigh.predict(np.c_[xx.ravel(), yy.ravel()])
 
@@ -50,7 +50,7 @@ def classify_knn_sk(attr_mat, label_vec, n_neighbors):
     plt.pcolormesh(xx, yy, labels, cmap = colormesh)
     plt.xlim(xx.min(), xx.max())
     plt.ylim(yy.min(), yy.max())
-    plt.scatter(attr_mat[:, 0], attr_mat[:, 1], c = label_vec, cmap = colorscatter)
+    plt.scatter(feature_mat[:, 0], feature_mat[:, 1], c = label_vec, cmap = colorscatter)
   plt.show()
 
 def study():
@@ -68,9 +68,9 @@ def study():
 if __name__ == '__main__':
   print('start scikit-learn neighbors...')
   file_path = 'data/dating.txt'
-  attr_mat, label_vec = knn.file2matrix(file_path)
-  attr_mat = attr_mat[:, 0 : 2]
-  norm_data, min_data, range_data = knn.auto_normal(attr_mat)
+  feature_mat, label_vec = knn.file2matrix(file_path)
+  feature_mat = feature_mat[:, 0 : 2]
+  norm_data, min_data, range_data = knn.auto_normal(feature_mat)
   classify_knn_sk(norm_data, label_vec, 3)
   print('scikit-learn neighbors over...')
 

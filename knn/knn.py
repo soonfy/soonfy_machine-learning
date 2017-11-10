@@ -31,7 +31,7 @@ def file2matrix(file_path):
   params:  
     file_path: 数据集路径，相对于程序运行目录，字符串  
   return:  
-    attr_mat：属性矩阵，np 数组对象  
+    feature_mat：特征属性矩阵，np 数组对象  
     label_vec：数据集类别，原生数组  
   """
   print('file path -->', file_path)
@@ -39,7 +39,7 @@ def file2matrix(file_path):
   # 确定文件行数，预先指定返回结果
   fd = open(file_path)
   line_len = len(fd.readlines())
-  attr_mat = np.zeros((line_len, 3))
+  feature_mat = np.zeros((line_len, 3))
   label_vec = []
 
   fd = open(file_path)
@@ -55,10 +55,10 @@ def file2matrix(file_path):
     # array[1, :]第一行的所有列数据
     # array[:, 1]所有行的第一列数据
     # 
-    attr_mat[index, :] = data[0:3]
+    feature_mat[index, :] = data[0:3]
     label_vec.append(int(data[-1]))
     index += 1
-  return attr_mat, label_vec
+  return feature_mat, label_vec
 
 def draw_scatter(datax, datay, datal, title = 'scatter title', xlabel = 'scatter xlabel', ylabel = 'scatter ylabel'):
   """
@@ -109,7 +109,8 @@ def auto_normal(data):
   """
   desc:  
     归一化数据集  
-    公式：y = (x - min_x)/(max_x - min_x)  
+    公式：y = (x - min_x)/(max_x - min_x)
+    参数：x是原始值，y是归一化的值，min_x是x中最小值，max_x是x中最大值  
   params:  
     data: 数据集，np 数组对象   
   return:  
@@ -134,21 +135,21 @@ def auto_normal(data):
   norm_data = norm_data / np.tile(range_data, (m, 1))
   return norm_data, min_data, range_data
 
-def classify_knn(attr_vec, attr_mat, label_vec, k):
+def classify_knn(feature_vec, feature_mat, label_vec, k):
   """
   desc:  
     knn 预测分类标签  
   params:  
-    attr_vec: 待预测属性向量，原生数组  
-    attr_mat: 属性矩阵，np 数组对象  
+    feature_vec: 待预测特征属性向量，原生数组  
+    feature_mat: 特征属性矩阵，np 数组对象  
     label_vec: 数据集类别，原生数组   
     k: 最近邻个数，数值   
   return:  
     label: 分类标签，字符串   
   """
 
-  m = attr_mat.shape[0]
-  diff_mat = np.tile(attr_vec, (m, 1)) - attr_mat
+  m = feature_mat.shape[0]
+  diff_mat = np.tile(feature_vec, (m, 1)) - feature_mat
   sqdiff_mat = diff_mat ** 2
   sq_distances = sqdiff_mat.sum(axis = 1)
   distances = sq_distances ** 0.5
@@ -173,14 +174,14 @@ def clean_data(file_path):
     range_data: 极差数据集，np 数组对象  
   """
 
-  attr_mat, label_vec = file2matrix(file_path)
-  # print(attr_mat, label_vec)
+  feature_mat, label_vec = file2matrix(file_path)
+  # print(feature_mat, label_vec)
   print('展示原始数据')
-  draw_scatter(attr_mat[:, 0], attr_mat[:, 1], label_vec, 'dating', 'flying', 'video')
-  draw_scatter(attr_mat[:, 0], attr_mat[:, 2], label_vec, 'dating', 'flying', 'eating')
-  draw_scatter(attr_mat[:, 1], attr_mat[:, 2], label_vec, 'dating', 'video', 'eating')
+  draw_scatter(feature_mat[:, 0], feature_mat[:, 1], label_vec, 'dating', 'flying', 'video')
+  draw_scatter(feature_mat[:, 0], feature_mat[:, 2], label_vec, 'dating', 'flying', 'eating')
+  draw_scatter(feature_mat[:, 1], feature_mat[:, 2], label_vec, 'dating', 'video', 'eating')
 
-  norm_data, min_data, range_data = auto_normal(attr_mat)
+  norm_data, min_data, range_data = auto_normal(feature_mat)
   print('展示归一化数据')
   draw_scatter(norm_data[:, 0], norm_data[:, 1], label_vec, 'dating', 'flying', 'video')
   draw_scatter(norm_data[:, 0], norm_data[:, 2], label_vec, 'dating', 'flying', 'eating')
@@ -198,8 +199,8 @@ def classify_test(file_path, data_ratio):
     classify_ratio: knn 分类错误占比，数值   
   """
 
-  attr_mat, label_vec = file2matrix(file_path)
-  norm_data, min_data, range_data = auto_normal(attr_mat)
+  feature_mat, label_vec = file2matrix(file_path)
+  norm_data, min_data, range_data = auto_normal(feature_mat)
   m = norm_data.shape[0]
   test_len = int(m * data_ratio)
   error_count = 0.0
