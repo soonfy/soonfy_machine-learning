@@ -6,9 +6,7 @@
 @methods
   1. get_leaf
   2. get_depth
-  3. choose_feature_split
-  4. choose_max_label
-  5. calculate_shannon_entropy
+  3. createPlot
 
 @desc study plot decision tree
 @author soonfy<soonfy@163.com>
@@ -77,7 +75,7 @@ def get_depth(tree):
 def plotMideText(cntrPt, parentPt, txtString):
   xMid = (parentPt[0] - cntrPt[0]) / 2.0 + cntrPt[0]
   yMid = (parentPt[1] - cntrPt[1]) / 2.0 + cntrPt[1]
-  createPlot.ax1.text(xMid, yMid, txtString)
+  createPlot.ax1.text(xMid, yMid, txtString, va="center", ha="center", rotation=30)
 
 def plotTree(myTree, parentPt, nodeTxt):
   leaf = get_leaf(myTree)
@@ -97,30 +95,22 @@ def plotTree(myTree, parentPt, nodeTxt):
       plotMideText((plotTree.xOff, plotTree.yOff), cntrPt, str(key))
   plotTree.yOff = plotTree.yOff + 1.0 / plotTree.totalD
 
-def createPlot(inTree):
+def createPlot(tree):
+  """
+  desc:  
+    根据决策树的嵌套字典画图  
+  params:  
+    tree: 表示决策树的嵌套字典   
+  return:  
+    None
+  """
+
   fig = plt.figure(1, facecolor = 'white')
   fig.clf()
   axprops = dict(xticks = [], yticks = [])
   createPlot.ax1 = plt.subplot(111, frameon = False, **axprops)
-  plotTree.totalW = float(get_leaf(inTree))
-  plotTree.totalD = float(get_depth(inTree))
+  plotTree.totalW = float(get_leaf(tree))
+  plotTree.totalD = float(get_depth(tree))
   plotTree.xOff = -0.5 /plotTree.totalW; plotTree.yOff = 1.0
-  plotTree(inTree, (0.5, 1.0), '')
+  plotTree(tree, (0.5, 1.0), '')
   plt.show()
-
-def retrieveTree(i):
-  listOfTrees = [{
-    'no surfacing': {
-      0: 'no',
-      1: {
-        'flippers': {
-          0: 'no',
-          1: 'yes'
-        }
-      }
-    }
-  }]
-  return listOfTrees[i]
-
-tree = retrieveTree(0)
-createPlot(tree)

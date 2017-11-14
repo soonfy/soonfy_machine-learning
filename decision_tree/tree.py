@@ -4,11 +4,13 @@
 """
 @module tree
 @methods
-  1. calculate_shannon_entropy
-  2. split_data
-  3. choose_feature_split
-  4. choose_max_label
-  5. calculate_shannon_entropy
+  1. file2matrix
+  2. calculate_shannon_entropy
+  3. split_data
+  4. choose_max_feature
+  5. create_tree
+  5. store_tree
+  5. grab_tree
 
 @desc study decision tree
 @author soonfy<soonfy@163.com>
@@ -19,22 +21,25 @@ print(__doc__)
 
 import math
 import operator
+import tree_plotter as tree_plotter
 
+def file2matrix(file_path):
+  """
+  desc:  
+    导入训练数据集，转化为特征属性数组和特征属性集合  
+  params:  
+    file_path: 数据集路径，相对于程序运行目录，字符串  
+  return:  
+    feature_list：特征属性数组，原生数组对象  
+    labels：特征属性集合，原生数组  
+  """
+  print('file path -->', file_path)
 
-def createDataSet():
-    """DateSet 基础数据集
-    Args:
-        无需传入参数
-    Returns:
-        返回数据集和对应的label标签
-    """
-    dataSet = [[1, 1, 'yes'],
-               [1, 1, 'yes'],
-               [1, 0, 'no'],
-               [0, 1, 'no'],
-               [0, 1, 'no']]
-    labels = ['no surfacing', 'flippers']
-    return dataSet, labels
+  # 确定文件行数，预先指定返回结果
+  fd = open(file_path)
+  feature_list = [line.strip().split('\t') for line in fd.readlines()]
+  labels = ['age', 'prescript', 'astigmatic', 'tearRate']
+  return feature_list, labels
 
 def calculate_shannon_entropy(data_set):
   """
@@ -139,27 +144,92 @@ def create_tree(data_set, labels):
     tree: 表示决策树的嵌套字典   
   """
 
+  # 
+  # [:]复制数组，以免程序操作修改原数组
+  # 
+  sub_labels = labels[:]
+
   label_list = [data[-1] for data in data_set]
   if label_list.count(label_list[0]) == len(label_list):
     return label_list[0]
   if len(data_set[0]) == 1:
     return choose_max_label(label_list)
   max_feature = choose_max_feature(data_set)
-  max_feature_name = labels[max_feature]
+  max_feature_name = sub_labels[max_feature]
   tree = {max_feature_name: {}}
-  del(labels[max_feature])
+  del(sub_labels[max_feature])
   feature_values = [data[max_feature] for data in data_set]
   feature_values = set(feature_values)
   for feature in feature_values:
-    sub_labels = labels[:]
     tree[max_feature_name][feature] = create_tree(split_data(data_set, max_feature, feature), sub_labels)
   return tree
 
+def classify_tree(feature_vec, tree, features):
+  """
+  desc:  
+    decision tree 预测分类标签  
+  params:  
+    feature_vec: 待预测特征属性向量，原生数组  
+    tree: 表示决策树的嵌套字典   
+    features: 特征属性集合，原生数组  
+  return:  
+    label: 分类标签，字符串   
+  """
 
+  feature = list(tree.keys())[0]
+  sub_tree = tree[feature]
+  feature_index = features.index(feature)
+  for key in sub_tree.keys():
+    if feature_vec[feature_index] == key:
+      if type(sub_tree[key]).__name__ == 'dict':
+        label = classify_tree(feature_vec, sub_tree[key], features)
+      else:
+        label = sub_tree[key]
+  return label
 
-data_set, labels = createDataSet()
-print(calculate_shannon_entropy(data_set))
-max_feature = choose_max_feature(data_set)
-print(max_feature)
-tree = create_tree(data_set, labels)
-print(tree)
+def store_tree(tree, file_path):
+  """
+  desc:  
+    存储决策树结构  
+  params:  
+    tree: 表示决策树的嵌套字典   
+    file_path: 决策树存储文件  
+  return:  
+    None   
+  """
+  import pickle
+  fd = open(file_path, 'wb')
+  pickle.dump(tree, fd)
+  fd.close()
+
+def grab_tree(file_path):
+  """
+  desc:  
+    读取决策树结构  
+  params:  
+    file_path: 决策树存储文件  
+  return:  
+    tree: 表示决策树的嵌套字典   
+  """
+  import pickle
+  fd = open(file_path, 'rb')
+  tree = pickle.load(fd)
+  return tree
+
+def main():
+  print('start decision tree...')
+  data_set, labels = file2matrix('data/lenses.txt')
+  tree = create_tree(data_set, labels)
+  print(tree)
+  print(labels)
+  tree_plotter.createPlot(tree)
+
+  store_tree(tree, 'data/decision_tree.txt')
+  treee = grab_tree('data/decision_tree.txt')
+  print(treee)
+  tree_plotter.createPlot(tree)
+
+  print('decision tree over...')
+
+if __name__ == '__main__':
+  main()
