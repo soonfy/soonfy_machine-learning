@@ -1,4 +1,4 @@
-# knn
+# decision tree
 
 ### k-近邻算法    
 * 优点：精度高，对异常值不敏感，无数据输入假定。    
@@ -14,12 +14,12 @@
 6. 适用算法：首先需要输入样本数据和结构化的输出结果，然后运行k-近邻算法判定输入数据分别属于哪个分类，最后应用对计算出的分类执行后续的处理。   
 
 ### dating数据集    
-1. 第 1 列：每年获得的飞行常客里程数    
+1. 第 1 列：年龄    
 2. 第 2 列：玩视频游戏所耗时间百分比    
 3. 第 3 列：每周消费的冰淇淋公升数    
 4. 第 4 列：类别。1 表示不喜欢， 2 表示魅力一般， 3 表示极具魅力    
 
-### scikit-learn neighbors
+### scikit-learn decision tree
 
   ```
   from sklearn import neighbors
@@ -29,13 +29,13 @@
   ```
 
   1. KNeighborsClassifier 参数    
-  sklearn.neighbors.KNeighborsClassifier(n_neighbors=5, weights=’uniform’, algorithm=’auto’, leaf_size=30, p=2, metric=’minkowski’, metric_params=None, n_jobs=1, **kwargs)      
+  sklearn.tree.DecisionTreeClassifier(criterion=’gini’, splitter=’best’, max_depth=None, min_samples_split=2, min_samples_leaf=1, min_weight_fraction_leaf=0.0, max_features=None, random_state=None, max_leaf_nodes=None, min_impurity_decrease=0.0, min_impurity_split=None, class_weight=None, presort=False)    
   * n_neighbors: 最近邻个数。    
   * weights: 距离权重计算方式。 uniform 表示距离权重相同，distance 表示权重和距离成反比。    
   * algorithm: 数据集分类方法。 ball_tree ，kd_tree 和暴力搜索。    
   * leaf_size: 叶子节点大小，适用于 ball_tree 和 kd_tree。     
   * p: 距离计算方式。 1 曼哈顿距离，2 欧几里得距离，n 闵可夫斯基距离。    
-  * metric: 距离度量方式。 minkowski 表示闵可夫斯基距离      
+  * metric: 距离度量方式。 minkowski 表示闵可夫斯基距离，
   * metric_params: 距离度量参数。    
   * n_jobs: 任务并发数量。 -1 表示 CPU 核数。    
 

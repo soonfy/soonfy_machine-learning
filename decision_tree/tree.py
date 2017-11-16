@@ -8,9 +8,11 @@
   2. calculate_shannon_entropy
   3. split_data
   4. choose_max_feature
-  5. create_tree
-  5. store_tree
-  5. grab_tree
+  5. choose_max_label
+  6. create_tree
+  7. classify_tree
+  8. store_tree
+  9. grab_tree
 
 @desc study decision tree
 @author soonfy<soonfy@163.com>
