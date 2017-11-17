@@ -8,8 +8,6 @@
   2. word2vec
   3. train_bayes
   4. classify_bayes
-  5. clean_data
-  6. classify_test
 
 @desc study bayes
 @author soonfy<soonfy@163.com>
@@ -54,21 +52,25 @@ def gene_vocab_list(data_set):
   vocab_list = list(vocab_set)
   return vocab_list
   
-def word2vec(data_set, vocab_set):
+def word2vec(data_set, vocab_list):
   """
   desc:  
     获取数据集的词向量
   params:  
     data_set: 文本数据集，原生数组   
-    vocab_set: 单词集合，原生集合    
+    vocab_list: 单词集合，原生数组    
   return:  
     word_vec: 单词向量，原生数组    
   """
 
-  word_vec = [0] * len(vocab_set)
+  word_vec = [0] * len(vocab_list)
   for word in data_set:
-    if word in vocab_set:
-      word_vec[vocab_set.index(word)] = 1
+    if word in vocab_list:
+      # 
+      # 词集模型
+      # word_vec[vocab_list.index(word)] = 1
+      # 词袋模型
+      word_vec[vocab_list.index(word)] += 1
     else:
       print('word %s isnot in vocab set.' % word)
   return word_vec
